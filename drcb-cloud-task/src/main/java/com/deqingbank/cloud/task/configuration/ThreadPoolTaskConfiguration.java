@@ -1,4 +1,4 @@
-package com.deqingbank.cloud.task;
+package com.deqingbank.cloud.task.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class ThreadPoolTaskConfiguration {
 
-	@Bean("attendRecordDwonloadTask")
+	@Bean("attendRecordDwonloadTask1")
 	public ThreadPoolTaskExecutor getThreadPoolTaskExecutor() {
 		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
 		threadPoolTaskExecutor.setCorePoolSize(5);

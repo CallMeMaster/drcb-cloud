@@ -14,7 +14,7 @@ public class AttendRecordDownloadTask implements Runnable{
 		if(ipaddr.equals("Machine10") || ipaddr.equals("Machine4")) {
 			try {
 				System.out.println("======sleep");
-				Thread.sleep(10000000);
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
