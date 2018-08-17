@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.deqingbank.cloud.task.service.TaskService;
 
 @RestController
+@RequestMapping("/task")
 public class TaskController {
 	
 	@Autowired
@@ -17,5 +18,5 @@ public class TaskController {
 		taskService.startDownloadTask();
 		return "success";
 	}
-
+	
 }
