@@ -3,11 +3,12 @@ package com.deqingbank.cloud.task.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @Configuration
-public class ThreadPoolTaskConfiguration {
+public class TaskConfiguration {
 
-	@Bean("attendRecordDwonloadTask1")
+	@Bean("taskPool")
 	public ThreadPoolTaskExecutor getThreadPoolTaskExecutor() {
 		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
 		threadPoolTaskExecutor.setCorePoolSize(5);
@@ -16,5 +17,13 @@ public class ThreadPoolTaskConfiguration {
 		threadPoolTaskExecutor.setThreadNamePrefix("AttendRecordDownloadTask-");
 		threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
 		return threadPoolTaskExecutor;
+	}
+	
+	@Bean("taskScheduler")
+	public ThreadPoolTaskScheduler getTaskScheduler() {
+		ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+		taskScheduler.setPoolSize(5);
+		taskScheduler.setBeanName("SchedulerTask");
+		return taskScheduler;
 	}
 }

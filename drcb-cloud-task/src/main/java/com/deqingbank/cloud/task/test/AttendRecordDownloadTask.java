@@ -1,6 +1,11 @@
 package com.deqingbank.cloud.task.test;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AttendRecordDownloadTask implements Runnable{
+	
+	private static final Logger logger = LoggerFactory.getLogger(AttendRecordDownloadTask.class);
 
 	private String ipaddr;
 	
@@ -10,16 +15,13 @@ public class AttendRecordDownloadTask implements Runnable{
 	
 	@Override
 	public void run() {
-		System.out.println("Start to download from:"+ipaddr+"!");
-		if(ipaddr.equals("Machine10") || ipaddr.equals("Machine4")) {
+		if(ipaddr.equals("10") || ipaddr.equals("14")) {
 			try {
-				System.out.println("======sleep");
+				logger.debug("{}======sleep",ipaddr);
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		System.out.println("finish to download from:"+ipaddr+"!");
 	}
 }
