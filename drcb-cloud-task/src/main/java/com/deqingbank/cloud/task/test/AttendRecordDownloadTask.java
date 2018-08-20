@@ -9,11 +9,11 @@ public class AttendRecordDownloadTask implements Runnable{
 	
 	private static final Logger logger = LoggerFactory.getLogger(AttendRecordDownloadTask.class);
 
-	
-	private TestServiceFeignClient testService;
+	private TestServiceFeignClient testServiceFeignClient;
 	private String ipaddr;
 	
-	public AttendRecordDownloadTask(String ipaddr) {
+	public AttendRecordDownloadTask(TestServiceFeignClient client,String ipaddr) {
+		this.testServiceFeignClient = client;
 		this.ipaddr = ipaddr;
 	}
 	
@@ -22,11 +22,13 @@ public class AttendRecordDownloadTask implements Runnable{
 		if(ipaddr.equals("10") || ipaddr.equals("14")) {
 			try {
 				logger.debug("{}======sleep",ipaddr);
-				testService.download(ipaddr);
 				Thread.sleep(10000);
+				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		testServiceFeignClient.test();
+		logger.debug("{}======finished!",ipaddr);
 	}
 }

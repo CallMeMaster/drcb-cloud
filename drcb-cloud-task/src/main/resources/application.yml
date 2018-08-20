@@ -46,5 +46,5 @@ logging:
   level: 
     root: warn
     com.deqingbank:  debug
-    org.springframework.web: debug
+    org.springframework.web: warn
     org.springframework.cloud.netflix.eureka: warn
