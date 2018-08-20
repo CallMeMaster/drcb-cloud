@@ -28,7 +28,7 @@ public class AttendRecordDownloadTask implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		testServiceFeignClient.test();
+		testServiceFeignClient.test(ipaddr);
 		logger.debug("{}======finished!",ipaddr);
 	}
 }
