@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.deqingbank.cloud.task.service.TaskSchedulerService;
 import com.deqingbank.cloud.task.service.TaskService;
 
 
@@ -18,11 +19,13 @@ public class TaskController {
 	
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private TaskSchedulerService schedulerService;
 	
 	@RequestMapping("/download")
 	public String startDownload() {
 		logger.debug("download action!");
-		//taskService.startDownloadTask();
+		schedulerService.startDownloadTask();
 		return "success";
 	}
 	

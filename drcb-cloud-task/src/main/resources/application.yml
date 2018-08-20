@@ -2,7 +2,7 @@ spring:
   application:
     name: drcb-cloud-task
   datasource:
-    url: jdbc:sqlserver://localhost;databasename=CloudTask
+    url: jdbc:sqlserver://158.82.100.112;databasename=CloudTask
     username: sa
     password: drcb@123
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -27,12 +27,18 @@ management:
   endpoints:
     web:
       exposure:
-        include: -*
+        include: "*"
       base-path: /
   endpoint:
     health:
       show-details: always
-
+      
+      
+#eureak      
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
 
 
 #log
@@ -41,3 +47,4 @@ logging:
     root: warn
     com.deqingbank:  debug
     org.springframework.web: debug
+    org.springframework.cloud.netflix.eureka: warn
