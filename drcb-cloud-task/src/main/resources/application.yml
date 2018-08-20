@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: drcb-cloud-task
+  datasource:
+    url: jdbc:sqlserver://localhost;databasename=CloudTask
+    username: sa
+    password: drcb@123
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    database: sql-server
+  boot:
+    admin:
+      client:
+        url: http://localhost:8081
+        instance:
+          prefer-ip: true
+server:
+  port: 8080
+
+
+info: 
+  version: ${project.version}
+  name: ${project.artifactId}
+
+#admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: -*
+      base-path: /
+  endpoint:
+    health:
+      show-details: always
+
+
+
+#log
+logging:
+  level: 
+    root: warn
+    com.deqingbank:  debug
+    org.springframework.web: debug
