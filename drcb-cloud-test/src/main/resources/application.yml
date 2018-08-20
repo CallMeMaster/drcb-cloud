@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: cloud-service-test
+
+server:
+  port: 9091
+
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+      
+logging:
+  level:
+    root: warn
+    com.deqingbank.cloud.test: debug
