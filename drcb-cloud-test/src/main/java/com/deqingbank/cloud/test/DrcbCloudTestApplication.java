@@ -27,5 +27,9 @@ public class DrcbCloudTestApplication {
 		logger.debug("{} start to download!",ipAddr);
 	}
 	
+	@RequestMapping("/test")
+	public void test() {
+		logger.debug("test start to download!");
+	}
 	
 }
