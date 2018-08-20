@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -22,14 +21,20 @@ public class DrcbCloudTestApplication {
 		SpringApplication.run(DrcbCloudTestApplication.class, args);
 	}
 	
+	/**
+	 * if ip addr is 00,then it goes to sleep.
+	 * @param ipAddr
+	 */
 	@RequestMapping("/{ipAddr}")
 	public void download(@PathVariable String ipAddr) {
 		logger.debug("{} start to download!",ipAddr);
+		if("00".equals(ipAddr)) {
+			try {
+				logger.debug("Failed service");
+				Thread.sleep(999999999);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	
-	/*@RequestMapping("/test")
-	public void test() {
-		logger.debug("test start to download!");
-	}*/
-	
 }
