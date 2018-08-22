@@ -21,26 +21,31 @@ import io.swagger.annotations.ApiOperation;
 public class DrcbCloudTestApplication {
 
 	private Logger logger = LoggerFactory.getLogger(DrcbCloudTestApplication.class);
-	private static int sleepThread = 0;
+	private static Long SLEEP_LENGTH = 0L;
 	public static void main(String[] args) {
 		SpringApplication.run(DrcbCloudTestApplication.class, args);
 	}
 	
 	/**
-	 * if ip addr is 00,then it goes to sleep.
 	 * @param ipAddr
 	 */
 	@ApiOperation(value="download service",notes="download mock service!")
-	@GetMapping("/{ipAddr}")
+	@GetMapping("/ip/{ipAddr}")
 	public String download(@PathVariable Long ipAddr) {
 		logger.debug("{} start to download!",ipAddr);
-		sleepThread ++;
-		logger.debug("Failed service {}",sleepThread);
 		try {
-			Thread.sleep(ipAddr);
+			Thread.sleep(SLEEP_LENGTH);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return "success";
+	}
+	
+	@ApiOperation(value="sleep length",notes="修改睡眠时间！")
+	@GetMapping("/sleep/{sleepLength}")
+	public String changeSleepLength(@PathVariable Long sleepLength) {
+		SLEEP_LENGTH = sleepLength;
+		logger.debug("SLEEP_LENGTH:{}",SLEEP_LENGTH);
+		return "睡眠时间修改为："+SLEEP_LENGTH;
 	}
 }
