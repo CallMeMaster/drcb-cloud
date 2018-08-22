@@ -34,6 +34,11 @@ public class TaskSchedulerService {
 				"thread priority:"+taskScheduler.getThreadPriority();
 	}
 
-	public void addTask(String jobClassName, String jobGroupName, String cronExpression) {
+	public void schedulerTask(String jobClassName, String jobGroupName, String cronExpression) {
+		taskScheduler.execute(new AttendRecordDownloadTask(client, "00"));
+	}
+	
+	public void addTask() {
+		taskScheduler.execute(new AttendRecordDownloadTask(client, "00"));
 	}
 }
