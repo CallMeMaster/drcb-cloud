@@ -21,6 +21,14 @@ server:
 feign:
   hystrix:
     enabled: true
+#hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=10000
+hystrix: 
+  command: 
+    default: 
+      execution: 
+        isolation: 
+        thread: 
+        timeoutInMilliseconds: 10000
 info: 
   version: ${project.version}
   name: ${project.artifactId}
