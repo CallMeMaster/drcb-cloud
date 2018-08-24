@@ -27,8 +27,12 @@ hystrix:
     default: 
       execution: 
         isolation: 
-        thread: 
-        timeoutInMilliseconds: 10000
+          thread: 
+            timeoutInMilliseconds: 10000
+ribbon: 
+  ReadTimeout: 120000
+  ConnectTimeout: 3000
+   
 info: 
   version: ${project.version}
   name: ${project.artifactId}
@@ -59,3 +63,6 @@ logging:
     com.deqingbank:  debug
     org.springframework.web: warn
     org.springframework.cloud.netflix.eureka: warn
+    feign: debug
+    com.netflix.hystrix: debug
+     

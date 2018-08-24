@@ -3,7 +3,10 @@ package com.deqingbank.cloud.task.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.config.CronTask;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
 import com.deqingbank.cloud.task.feign.TestServiceFeignClient;
@@ -18,6 +21,8 @@ public class TaskSchedulerService {
 	private TestServiceFeignClient client;
 	@Autowired
 	private ThreadPoolTaskScheduler taskScheduler;
+	@Autowired
+	private TaskFactory taskFactory;
 
 	//@Scheduled(fixedRate=60000)
 	public void startDownloadTask() {
@@ -34,11 +39,18 @@ public class TaskSchedulerService {
 				"thread priority:"+taskScheduler.getThreadPriority();
 	}
 
-	public void schedulerTask(String jobClassName, String jobGroupName, String cronExpression) {
-		taskScheduler.execute(new AttendRecordDownloadTask(client, "00"));
+	/**
+	 * 
+	 * @param serviceUrl
+	 * @param cronExpression
+	 */
+	public void schedulerTask(String serviceUrl, String cronExpression) {
+		Runnable task = taskFactory.buildTask(serviceUrl);
+		Trigger trigger = new CronTrigger(cronExpression);
+		taskScheduler.schedule(task,trigger);
 	}
 	
-	public void addTask() {
+	public void addTask(String serviceUrl,String cron) {
 		taskScheduler.execute(new AttendRecordDownloadTask(client, "00"));
 	}
 }
