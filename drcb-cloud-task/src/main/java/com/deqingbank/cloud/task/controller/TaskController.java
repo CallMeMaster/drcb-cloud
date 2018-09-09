@@ -1,8 +1,12 @@
 package com.deqingbank.cloud.task.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,6 +57,20 @@ public class TaskController {
 	public String saveTask(@RequestBody Task task) {
 		logger.debug(task.toString());
 		return "1111";
+	}
+	
+	@GetMapping("/list")
+	public String getTaskList(ModelMap model) {
+		Task t = new Task();
+		t.setId(1L);
+		t.setName("test");
+		t.setType("sd");
+		t.setUrl("sdf");
+		List<Task> taskList = new ArrayList<Task>();
+		taskList.add(t);
+		model.addAttribute("tasks",taskList);
+		return "taskManager";
+		
 	}
 	
 }
