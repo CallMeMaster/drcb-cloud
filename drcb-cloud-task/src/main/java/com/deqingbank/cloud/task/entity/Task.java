@@ -18,6 +18,6 @@ public class Task {
 	private String name;
 	private String url;
 	private String cron;
-	private String state;
+	private TaskState state;
 	private Date lastExecuteTime; 
 }

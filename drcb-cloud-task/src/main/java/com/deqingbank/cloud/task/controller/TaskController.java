@@ -18,25 +18,29 @@ import org.springframework.web.bind.annotation.RestController;
 import com.deqingbank.cloud.task.entity.Task;
 import com.deqingbank.cloud.task.feign.TestServiceFeignClient;
 import com.deqingbank.cloud.task.service.TaskSchedulerService;
+import com.deqingbank.cloud.task.service.TaskService;
 
 import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
 
 @Api
 @RestController
 @RequestMapping("/task")
+@Slf4j
 public class TaskController {
-	
-	private Logger logger = LoggerFactory.getLogger(TaskController.class);
 	
 	@Autowired
 	private TestServiceFeignClient client;
+	
+	@Autowired
+	private TaskService taskService;
 	
 	@Autowired 
 	private TaskSchedulerService scheduler; 
 	
 	@GetMapping("/download")
 	public String startDownload() {
-		logger.debug("download action!");
+		log.debug("download action!");
 		//schedulerService.startDownloadTask();
 		return "success";
 	}
@@ -47,40 +51,37 @@ public class TaskController {
 		//return taskService.getTaskInfo();
 	}
 	
-	@GetMapping("/addTask/{ipaddr}")
-	public String addTask(@PathVariable("ipaddr") String ipaddr) {
-		//scheduler.
-		return client.test(ipaddr);
-	}
-	
-	@PostMapping("/")
-	public String saveTask(@RequestBody Task task) {
-		logger.debug(task.toString());
-		return "1111";
+	@RequestMapping("/delete/{id}")
+	public boolean addTask(@PathVariable("id") Long id) {
+		taskService.delete(id);
+		return true;
 	}
 	
 	@RequestMapping("/list")
 	public List<Task> getTaskList() {
-		Task t = new Task();
-		t.setId(1L);
-		t.setName("test");
-		t.setUrl("sdf");
-		t.setLastExecuteTime(new Date());
-		List<Task> taskList = new ArrayList<Task>();
-		taskList.add(t);
-		return taskList;
-		
+		log.debug("TaskLength:{}",taskService.list().size());
+		return taskService.list();
 	}
 	
 	@RequestMapping("/add")
-	public void addTask(@RequestParam String name,@RequestParam String cron,@RequestParam String url) {
-		Task t = new Task();
-		t.setId(1L);
-		t.setName("test");
-		t.setUrl("sdf");
-		t.setLastExecuteTime(new Date());
-		List<Task> taskList = new ArrayList<Task>();
-		taskList.add(t);
+	public boolean addTask(@RequestParam String name,@RequestParam String cron,@RequestParam String url) {
+		Task task = new Task();
+		task.setName(name);
+		task.setUrl(url);
+		task.setCron(cron);
+		taskService.add(task);
+		return true;
+	}
+	
+	@RequestMapping("/update/{id}")
+	public boolean addTask(@PathVariable Long id,@RequestParam String name,@RequestParam String cron,@RequestParam String url) {
+		Task task = new Task();
+		task.setId(id);
+		task.setName(name);
+		task.setUrl(url);
+		task.setCron(cron);
+		taskService.add(task);
+		return true;
 	}
 	
 }

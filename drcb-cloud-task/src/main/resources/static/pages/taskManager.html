@@ -3,11 +3,86 @@
 <head>
 	<meta charset="UTF-8">
 	<title>考勤下载任务中心</title>
-	<link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">
+	<style type="text/css">
+	#fm{
+		margin:0;
+		padding:10px 30px;
+	}
+	.ftitle{
+		font-size:14px;
+		font-weight:bold;
+		color:#666;
+		padding:5px 0;
+		margin-bottom:10px;
+		border-bottom:1px solid #ccc;
+	}
+	.fitem{
+		margin-bottom:5px;
+	}
+	.fitem label{
+		display:inline-block;
+		width:90px;
+	}
+	</style>
 	<script type="text/javascript" src="../easyui/jquery.min.js"></script>
 	<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+		var url;
+		function newTask(){
+			$('#dlg').dialog('open').dialog('setTitle','New Task');
+			$('#fm').form('clear');
+			url = '/task/add';
+		}
+		function editTask(){
+			var row = $('#dg').datagrid('getSelected');
+			if (row){
+				$('#dlg').dialog('open').dialog('setTitle','Edit Task');
+				$('#fm').form('load',row);
+				url = '/task/update/'+row.id;
+			}
+		}
+		function saveTask(){
+			$('#fm').form('submit',{
+				url: url,
+				onSubmit: function(){
+					return $(this).form('validate');
+				},
+				success: function(result){
+					if (result){
+						$('#dlg').dialog('close');		// close the dialog
+						$('#dg').datagrid('reload');	// reload the user data
+					} else {
+						$.messager.show({
+							title: 'Error',
+							msg: "error"
+						});
+					}
+				}
+			});
+		}
+		function removeTask(){
+			var row = $('#dg').datagrid('getSelected');
+			if (row){
+				$.messager.confirm('Confirm','Are you sure you want to remove this Task?',function(r){
+					if (r){
+						$.post('/task/delete/'+row.id,function(result){
+							if (result){
+								$('#dg').datagrid('reload');	// reload the user data
+							} else {
+								$.messager.show({	// show error message
+									title: 'Error',
+									msg: "error"
+								});
+							}
+						},'json');
+					}
+				});
+			}
+		}
+	</script>
 </head>
 <body class="easyui-layout">
     <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px">考勤下载任务中心</div>
@@ -20,18 +95,44 @@
 				<tr>
 					<th field="id" width="10px">ID</th>
 					<th field="name" width="40px">Name</th>
-					<th field="url" width="60">Url</th>
-					<th field="type" width="40">Cron</th>
+					<th field="url" width="60">Service Url</th>
+					<th field="cron" width="40">Cron Exp</th>
 					<th field="state" width="20px">State</th>
 					<th field="lastExecuteTime" width="30px">Last Execute Time</th>
 				</tr>
 			</thead>
 		</table>
 		<div id="toolbar">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New Task</a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit Task</a>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove Task</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newTask()">New Task</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editTask()">Edit Task</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeTask()">Remove Task</a>
 		</div>
+	</div>
+	<div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
+			closed="true" buttons="#dlg-buttons">
+		<div class="ftitle">Task Information</div>
+		<form id="fm" method="post" novalidate>
+			<div class="fitem">
+				<label>Name:</label>
+				<input name="name" class="easyui-validatebox" required="true">
+			</div>
+			<div class="fitem">
+				<label>Service Url:</label>
+				<input name="url" class="easyui-validatebox" required="true">
+			</div>
+			<div class="fitem">
+				<label>Cron:</label>
+				<input name="cron" class="easyui-validatebox" required="true">
+			</div>
+			<div class="fitem">
+				<label>State:</label>
+				<input name="state" class="easyui-validatebox" required="true">
+			</div>
+		</form>
+	</div>
+	<div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveTask()">Save</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
 	</div>
 </body>
 </html>

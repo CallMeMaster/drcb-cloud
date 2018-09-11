@@ -2,12 +2,16 @@ spring:
   application:
     name: drcb-cloud-task
   datasource:
-    url: jdbc:sqlserver://158.82.100.112;databasename=CloudTask
+    url: jdbc:sqlserver://localhost;databasename=CloudTask
     username: sa
     password: drcb@123
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     database: sql-server
+    database-platform: org.hibernate.dialect.SQLServer2008Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
 #  boot:
 #    admin:
 #      client:
