@@ -1,5 +1,7 @@
 package com.deqingbank.cloud.task.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,7 +15,9 @@ public class Task {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String type;
 	private String name;
 	private String url;
+	private String cron;
+	private String state;
+	private Date lastExecuteTime; 
 }

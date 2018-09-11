@@ -2,7 +2,7 @@ spring:
   application:
     name: drcb-cloud-task
   datasource:
-    url: jdbc:sqlserver://localhost;databasename=CloudTask
+    url: jdbc:sqlserver://158.82.100.112;databasename=CloudTask
     username: sa
     password: drcb@123
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver

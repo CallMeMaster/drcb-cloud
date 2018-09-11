@@ -1,11 +1,11 @@
 package com.deqingbank.cloud.task.feign;
 
-import org.springframework.cloud.openfeign.FeignClient;
+//import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name="cloud-service-test",fallback=TestServiceFeignClientFallBack.class)
+//@FeignClient(name="cloud-service-test",fallback=TestServiceFeignClientFallBack.class)
 public interface TestServiceFeignClient {
 
 /*	@GetMapping("/zkt/test")
