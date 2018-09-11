@@ -9,6 +9,7 @@ import org.springframework.scheduling.config.CronTask;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
+import com.deqingbank.cloud.task.entity.Task;
 import com.deqingbank.cloud.task.feign.TestServiceFeignClient;
 import com.deqingbank.cloud.task.test.AttendRecordDownloadTask;
 
@@ -44,10 +45,9 @@ public class TaskSchedulerService {
 	 * @param serviceUrl
 	 * @param cronExpression
 	 */
-	public void schedulerTask(String serviceUrl, String cronExpression) {
-		Runnable task = taskFactory.buildTask(serviceUrl);
-		Trigger trigger = new CronTrigger(cronExpression);
-		taskScheduler.schedule(task,trigger);
+	public void schedulerTask(Task task) {
+		Trigger trigger = new CronTrigger(task.getCron());
+		taskScheduler.schedule(taskFactory.buildTask(task.getUrl()),trigger);
 	}
 	
 	public void addTask(String serviceUrl,String cron) {

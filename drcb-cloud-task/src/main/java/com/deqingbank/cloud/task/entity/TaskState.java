@@ -2,7 +2,7 @@ package com.deqingbank.cloud.task.entity;
 
 public enum TaskState {
 
-	processing("runing",1),pending("pending",2),add("new",0),error("error",4);
+	PROCESSING("runing",1),PENDING("pending",2),ERROR("error",4);
 	
 	private String name;
 	private Integer value;

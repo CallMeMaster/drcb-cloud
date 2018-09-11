@@ -10,7 +10,7 @@ spring:
     database: sql-server
     database-platform: org.hibernate.dialect.SQLServer2008Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 #  boot:
 #    admin:

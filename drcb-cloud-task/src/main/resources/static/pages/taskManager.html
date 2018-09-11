@@ -44,6 +44,14 @@
 				url = '/task/update/'+row.id;
 			}
 		}
+		function copyTask(){
+			var row = $('#dg').datagrid('getSelected');
+			if (row){
+				$('#dlg').dialog('open').dialog('setTitle','Edit Task');
+				$('#fm').form('load',row);
+				url = '/task/add/';
+			}
+		}
 		function saveTask(){
 			$('#fm').form('submit',{
 				url: url,
@@ -104,6 +112,7 @@
 		</table>
 		<div id="toolbar">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newTask()">New Task</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="copyTask()">Copy Task</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editTask()">Edit Task</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeTask()">Remove Task</a>
 		</div>
@@ -123,10 +132,6 @@
 			<div class="fitem">
 				<label>Cron:</label>
 				<input name="cron" class="easyui-validatebox" required="true">
-			</div>
-			<div class="fitem">
-				<label>State:</label>
-				<input name="state" class="easyui-validatebox" required="true">
 			</div>
 		</form>
 	</div>
