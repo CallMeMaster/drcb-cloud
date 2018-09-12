@@ -1,35 +1,42 @@
 package com.deqingbank.cloud.task.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ScheduledFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.scheduling.config.CronTask;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
+import com.deqingbank.cloud.task.core.RunnableTask;
 import com.deqingbank.cloud.task.entity.Task;
 import com.deqingbank.cloud.task.feign.TestServiceFeignClient;
-import com.deqingbank.cloud.task.test.AttendRecordDownloadTask;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class TaskSchedulerService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TaskSchedulerService.class);
-
 	@Autowired
 	private TestServiceFeignClient client;
 	@Autowired
 	private ThreadPoolTaskScheduler taskScheduler;
 	@Autowired
 	private TaskFactory taskFactory;
+	
+	
+	private Map<Task, ScheduledFuture<?>> taskFutureMap = new HashMap<Task,ScheduledFuture<?>>();
 
 	//@Scheduled(fixedRate=60000)
 	public void startDownloadTask() {
 		for(int i=0;i<20;i++) {
-			logger.debug(taskScheduler.getThreadNamePrefix() + "{} submited!",i);
-			taskScheduler.execute(new AttendRecordDownloadTask(client,i+""));
+			log.debug(taskScheduler.getThreadNamePrefix() + "{} submited!",i);
+			//taskScheduler.execute(new AttendRecordDownloadTask(client,i+""));
 		}
 	}
 	
@@ -46,11 +53,27 @@ public class TaskSchedulerService {
 	 * @param cronExpression
 	 */
 	public void schedulerTask(Task task) {
+		this.cancelTask(task);
 		Trigger trigger = new CronTrigger(task.getCron());
-		taskScheduler.schedule(taskFactory.buildTask(task.getUrl()),trigger);
+		Runnable runnableTask = taskFactory.buildTask(task.getId());
+		ScheduledFuture<?> future = taskScheduler.schedule(runnableTask,trigger);
+		taskFutureMap.put(task, future);
 	}
 	
-	public void addTask(String serviceUrl,String cron) {
+	/*public void addTask(String serviceUrl,String cron) {
 		taskScheduler.execute(new AttendRecordDownloadTask(client, "00"));
+	}*/
+	
+	public boolean cancelTask(Task task) {
+		boolean cancelResult;
+		ScheduledFuture<?> future = taskFutureMap.get(task);
+		if(future==null) {
+			cancelResult = false;
+		}
+		else {
+			cancelResult = future.cancel(true);
+			taskFutureMap.remove(task);
+		}
+		return cancelResult;
 	}
 }

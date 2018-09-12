@@ -33,9 +33,9 @@ public class TaskService {
 		repository.deleteById(id);
 	}
 	
-	public void update(Task task) {
+	/*public void update(Task task) {
 		scheduler.schedulerTask(task);
 		repository.update(task.getId(),task.getName(),task.getCron(),task.getUrl());
-	}
+	}*/
 	
 }

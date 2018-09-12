@@ -24,6 +24,8 @@ public class TaskConfiguration {
 		ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
 		taskScheduler.setPoolSize(5);
 		taskScheduler.setBeanName("SchedulerTask");
+		//remove the task when cancel
+		taskScheduler.setRemoveOnCancelPolicy(true);
 		return taskScheduler;
 	}
 }

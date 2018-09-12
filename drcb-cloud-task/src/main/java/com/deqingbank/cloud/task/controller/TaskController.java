@@ -23,19 +23,21 @@ public class TaskController {
 	private TaskService taskService;
 	
 	@RequestMapping("/delete/{id}")
-	public boolean addTask(@PathVariable("id") Long id) {
+	public boolean deleteTask(@PathVariable("id") Long id) {
 		taskService.delete(id);
 		return true;
 	}
 	
 	@RequestMapping("/list")
 	public List<Task> getTaskList() {
+		log.debug("task list!");
 		log.debug("TaskLength:{}",taskService.list().size());
 		return taskService.list();
 	}
 	
 	@RequestMapping("/add")
 	public boolean addTask(@RequestParam String name,@RequestParam String cron,@RequestParam String url) {
+		log.debug("task add:{}",name);
 		Task task = new Task();
 		task.setName(name);
 		task.setUrl(url);
@@ -46,6 +48,7 @@ public class TaskController {
 	
 	@RequestMapping("/update/{id}")
 	public boolean addTask(@PathVariable Long id,@RequestParam String name,@RequestParam String cron,@RequestParam String url) {
+		log.debug("task update:{}",name);
 		Task task = new Task();
 		task.setId(id);
 		task.setName(name);

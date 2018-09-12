@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>考勤下载任务中心</title>
-	<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">
 	<style type="text/css">
@@ -90,6 +90,20 @@
 				});
 			}
 		}
+		function cellStyler(value,row,index){
+			if (value=="ERROR"){
+				return 'background-color:#ffee00;color:red;';
+			}
+			if (value=="PENDING"){
+				return 'background-color:#ffee00;color:green;';
+			}
+			if (value=="ERROR"){
+				return 'background-color:#ffee00;color:red;';
+			}
+			if (value=="ERROR"){
+				return 'background-color:#ffee00;color:red;';
+			}
+		}
 	</script>
 </head>
 <body class="easyui-layout">
@@ -105,7 +119,7 @@
 					<th field="name" width="40px">Name</th>
 					<th field="url" width="60">Service Url</th>
 					<th field="cron" width="40">Cron Exp</th>
-					<th field="state" width="20px">State</th>
+					<th field="state" width="20px" styler="cellStyler">State</th>
 					<th field="lastExecuteTime" width="30px">Last Execute Time</th>
 				</tr>
 			</thead>
