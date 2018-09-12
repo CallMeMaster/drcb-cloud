@@ -102,7 +102,7 @@ public class TaskService {
 			Task task = opt.get();
 			this.schedulerTask(id, task.getCron());
 			//db
-			repository.setState(id,TaskState.PENDING);
+			repository.setState(id,TaskState.PROCESSING);
 			return true;
 		}
 		return false;
