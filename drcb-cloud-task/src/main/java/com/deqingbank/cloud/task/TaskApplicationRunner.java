@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import com.deqingbank.cloud.task.entity.Task;
+import com.deqingbank.cloud.task.entity.TaskState;
 import com.deqingbank.cloud.task.service.TaskSchedulerService;
 import com.deqingbank.cloud.task.service.TaskService;
 
@@ -28,7 +29,8 @@ public class TaskApplicationRunner implements ApplicationRunner{
 		log.debug("task application runner start!");
 		List<Task> tasks = taskService.list();
 		log.debug("task init:{}",tasks.size());
-		tasks.forEach((task)->taskSchedulerService.schedulerTask(task));
+		tasks.stream().filter(task->task.getState()!=TaskState.CANCEL).forEach(task->{
+			taskSchedulerService.schedulerTask(task.getId(),task.getCron());
+		});
 	}
-
 }

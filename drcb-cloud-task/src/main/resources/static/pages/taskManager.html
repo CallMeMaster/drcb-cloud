@@ -90,6 +90,36 @@
 				});
 			}
 		}
+		function cancelTask(){
+			var row = $('#dg').datagrid('getSelected');
+			if (row){
+				$.post('/task/cancel/'+row.id,function(result){
+					if (result){
+						$('#dg').datagrid('reload');	// reload the user data
+					} else {
+						$.messager.show({	// show error message
+							title: 'Error',
+							msg: "error"
+						});
+					}
+				},'json');
+			}
+		}
+		function enableTask(){
+			var row = $('#dg').datagrid('getSelected');
+			if (row){
+				$.post('/task/enable/'+row.id,function(result){
+					if (result){
+						$('#dg').datagrid('reload');	// reload the user data
+					} else {
+						$.messager.show({	// show error message
+							title: 'Error',
+							msg: "error"
+						});
+					}
+				},'json');
+			}
+		}
 		function cellStyler(value,row,index){
 			if (value=="ERROR"){
 				return 'background-color:#ffee00;color:red;';
@@ -128,6 +158,8 @@
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newTask()">New Task</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="copyTask()">Copy Task</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editTask()">Edit Task</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="cancelTask()">cancel Task</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="enableTask()">enable Task</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeTask()">Remove Task</a>
 		</div>
 	</div>

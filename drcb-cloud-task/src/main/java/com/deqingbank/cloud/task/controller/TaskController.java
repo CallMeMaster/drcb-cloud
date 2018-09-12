@@ -24,6 +24,7 @@ public class TaskController {
 	
 	@RequestMapping("/delete/{id}")
 	public boolean deleteTask(@PathVariable("id") Long id) {
+		log.debug("task delete:{}",id);
 		taskService.delete(id);
 		return true;
 	}
@@ -54,7 +55,21 @@ public class TaskController {
 		task.setName(name);
 		task.setUrl(url);
 		task.setCron(cron);
-		taskService.add(task);
+		taskService.update(task);
+		return true;
+	}
+	
+	@RequestMapping("/cancel/{id}")
+	public boolean cancelTask(@PathVariable Long id) {
+		log.debug("task cancel:{}",id);
+		taskService.cancel(id);
+		return true;
+	}
+	
+	@RequestMapping("/enable/{id}")
+	public boolean enableTask(@PathVariable Long id) {
+		log.debug("task enable:{}",id);
+		taskService.enable(id);
 		return true;
 	}
 	

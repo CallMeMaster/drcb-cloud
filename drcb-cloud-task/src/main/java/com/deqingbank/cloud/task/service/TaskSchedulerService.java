@@ -30,7 +30,7 @@ public class TaskSchedulerService {
 	private TaskFactory taskFactory;
 	
 	
-	private Map<Task, ScheduledFuture<?>> taskFutureMap = new HashMap<Task,ScheduledFuture<?>>();
+	private Map<Long, ScheduledFuture<?>> taskFutureMap = new HashMap<Long,ScheduledFuture<?>>();
 
 	//@Scheduled(fixedRate=60000)
 	public void startDownloadTask() {
@@ -52,27 +52,27 @@ public class TaskSchedulerService {
 	 * @param serviceUrl
 	 * @param cronExpression
 	 */
-	public void schedulerTask(Task task) {
-		this.cancelTask(task);
-		Trigger trigger = new CronTrigger(task.getCron());
-		Runnable runnableTask = taskFactory.buildTask(task.getId());
+	public void schedulerTask(Long id,String cron) {
+		this.cancelTask(id);
+		Trigger trigger = new CronTrigger(cron);
+		Runnable runnableTask = taskFactory.buildTask(id);
 		ScheduledFuture<?> future = taskScheduler.schedule(runnableTask,trigger);
-		taskFutureMap.put(task, future);
+		taskFutureMap.put(id, future);
 	}
 	
 	/*public void addTask(String serviceUrl,String cron) {
 		taskScheduler.execute(new AttendRecordDownloadTask(client, "00"));
 	}*/
 	
-	public boolean cancelTask(Task task) {
+	public boolean cancelTask(Long id) {
 		boolean cancelResult;
-		ScheduledFuture<?> future = taskFutureMap.get(task);
+		ScheduledFuture<?> future = taskFutureMap.get(id);
 		if(future==null) {
 			cancelResult = false;
 		}
 		else {
 			cancelResult = future.cancel(true);
-			taskFutureMap.remove(task);
+			taskFutureMap.remove(id);
 		}
 		return cancelResult;
 	}
