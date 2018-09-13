@@ -62,7 +62,7 @@ public class TaskController {
 	@RequestMapping("/cancel/{id}")
 	public boolean cancelTask(@PathVariable Long id) {
 		log.debug("task cancel:{}",id);
-		taskService.cancel(id);
+		taskService.disableTask(id);
 		return true;
 	}
 	

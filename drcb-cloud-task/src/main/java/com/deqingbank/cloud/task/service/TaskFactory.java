@@ -14,7 +14,7 @@ public class TaskFactory {
 	
 	private TaskFactory() {};
 	
-	public Runnable buildTask(Long taskId) {
-		return new RunnableTask(client, taskId);
-	}
+	/*public Runnable buildTask(Task,TaskService taskService) {
+		return new RunnableTask(client, id, taskService);
+	}*/
 }
