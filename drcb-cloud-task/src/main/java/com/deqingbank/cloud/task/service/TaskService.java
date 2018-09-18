@@ -64,7 +64,7 @@ public class TaskService {
 		if(oldFuture!=null) {
 			oldFuture.cancel(true);
 		}
-		Runnable runnableTask = new RunnableTask(task, this);
+		Runnable runnableTask = new RunnableTask(task);
 		Trigger trigger = new CronTrigger(task.getCron());
 		ScheduledFuture<?> future = taskScheduler.schedule(runnableTask,trigger);
 		taskFutureMap.put(task.getId(), future);

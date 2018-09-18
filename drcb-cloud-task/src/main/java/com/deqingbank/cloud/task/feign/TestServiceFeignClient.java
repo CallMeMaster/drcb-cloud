@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 //@FeignClient(name="cloud-service-test",fallback=TestServiceFeignClientFallBack.class)
 public interface TestServiceFeignClient {
+	
+	public static final String t = "";
 
 /*	@GetMapping("/zkt/test")
 	public void test(); 
